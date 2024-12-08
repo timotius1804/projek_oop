@@ -3,8 +3,6 @@
 # 2. Add choice function for user input to set parameters for the manga (e.g: tags, title)
 # 3. Add function to edit manga record manually
 # 4. Add function to delete manga record manually
-# 5. Add function to add manga record manually
-# 6. 
 
 from api import MangaAPI
 import uuid
@@ -60,7 +58,7 @@ class AddManga:
         print("Statuses : ")
         for i, status in enumerate(statuses):
             print(f"{i+1}. {status}")
-        status = input("Status : ")
+        status = input("Status (e.g: Ongoing, Completed) : ").title()
         if status == '' or status not in statuses:
             print("Invalid Status")
             return
@@ -76,7 +74,8 @@ class AddManga:
         print("Tags : ")    
         for i, tag in enumerate(tag_list):
             print(f"{i+1}. {tag}")
-        tags = input("Tags (comma separated) : ").split(",")
+        tags = input("Tags (e.g: fantasy, adventure, action) : ").split(",")
+        tags = [i.strip().title() for i in tags]
         if tags == []:
             print("Tags cannot be empty")
             return
@@ -153,10 +152,16 @@ class AddManga:
         api = MangaAPI(included_tags, tags_mode).getData()
         for i in api:
             if i[0] in mangas_dict:
-                obj = Manga(*i[:11], i[11:])
+                print(i)
+                obj = Manga(*i)
                 mangas_dict[i[0]] = obj
+                for i in mangas:
+                    if i.get_manga_id() == obj.get_manga_id():
+                        i = obj
+                        break
             else:
-                obj = Manga(*i[:11], i[11:])
+                print(i)
+                obj = Manga(*i)
                 mangas.append(obj)
                 mangas_dict[obj.get_manga_id()] = obj
 
@@ -164,10 +169,14 @@ class AddManga:
         api = MangaAPI(["Action", "Fantasy", "Adventure", "Comedy", "Drama", "Romance", "School Life", "Shounen"], "OR").getData()
         for i in api:
             if i[0] in mangas_dict:
-                obj = Manga(*i[:11], i[11:])
+                obj = Manga(*i)
                 mangas_dict[i[0]] = obj
+                for i in mangas:
+                    if i.get_manga_id() == obj.get_manga_id():
+                        i = obj
+                        break
             else:
-                obj = Manga(*i[:11], i[11:])
+                obj = Manga(*i)
                 mangas.append(obj)
                 mangas_dict[obj.get_manga_id()] = obj
 
@@ -189,4 +198,3 @@ def add_manga(mangas, mangas_dict):
             break
         else:
             print("Invalid Choice")
-            

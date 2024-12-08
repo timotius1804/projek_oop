@@ -46,6 +46,40 @@ class Manga:
     def get_tags(self) -> list:
         return self.__tags
     
-
     def get_link(self) -> str:
         return self.__link
+    
+    def set_title(self, title: str) -> None:    
+        self.__title = title
+
+    def set_tags(self, tags: list) -> None:
+        self.__tags = tags
+    
+    def set_followers(self, followers: int) -> None:
+        self.__followers = followers
+    
+    def set_rating(self, rating: float) -> None:
+        self.__rating = rating
+    
+    def set_total_chapters(self, total_chapters: int) -> None:
+        self.__total_chapters = total_chapters
+
+    def set_release_year(self, release_year: int) -> None:
+        self.__release_year = release_year
+
+    def set_status(self, status: str) -> None:
+        self.__status = status
+
+    def set_author(self, author: str) -> None:
+        self.__author = author
+
+    def set_artist(self, artist: str) -> None:
+        self.__artist = artist
+
+    def set_description(self, description: str) -> None:
+        self.__description = description
+
+    
+    
+    def get_data(self) -> tuple:
+        return (self.__manga_id, self.__title, self.__total_chapters, self.__followers, self.__rating, self.__release_year, self.__status, self.__author, self.__artist, self.__description, self.__link, self.__tags)

@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import random
+from display import showDetailed, showList
 
 class QueryManga:
     def __init__(self, strategy, mangas):
@@ -19,48 +20,27 @@ class Strategy(ABC):
 
 class RandomManga(Strategy):
     def get_manga(self, mangas):
+        if len(mangas) == 0:
+            print("No Manga Found")
         random_manga = random.choice(mangas)
-        self.display_manga_details(random_manga)
-
-    def display_manga_details(self, random_manga):
-        print(
-f"""
-Title : {random_manga.get_title()}
-Author : {random_manga.get_author()}
-Artist : {random_manga.get_artist()}
-Tags : {', '.join(random_manga.get_tags())}
-Followers : {random_manga.get_followers()}
-Rating : {random_manga.get_rating()}
-Total Chapters : {random_manga.get_total_chapters()}
-Release Year : {random_manga.get_release_year()}
-Status : {random_manga.get_status()}
-Description : 
-\t{random_manga.get_description()}
-Link : {random_manga.get_link()}
-"""
-        )
+        showDetailed(random_manga)
+        
 
 class TopRatedManga(Strategy):
     def get_manga(self, mangas):
-        top_rated_manga = sorted(mangas, key=lambda x: x.get_rating(), reverse=False)
+        if len(mangas) == 0:
+            print("No Manga Found")
+        top_rated_manga = sorted(mangas, key=lambda x: x.get_rating(), reverse=True)
         i = 0
         max_page = len(mangas) // 10
+        if len(mangas) <= 10:
+            max_page = 1
         if len(mangas) % 10 != 0 and len(mangas) > 10:
             max_page += 1
         while 0 <= i < len(mangas):
             print(f"Page {((i+1)//10)+1} of {max_page}")
             for j in range(min(10, len(mangas) - i)):
-                print(f"""
-{i+j+1}. {top_rated_manga[i+j].get_title()} 
-Followers : {top_rated_manga[i+j].get_followers()} | \
-Rating : {top_rated_manga[i+j].get_rating()} | \
-Chapters : {top_rated_manga[i+j].get_total_chapters()} | \
-Release Year : {top_rated_manga[i+j].get_release_year()} | \
-Status : {top_rated_manga[i+j].get_status()} | \
-Author : {top_rated_manga[i+j].get_author()} | \
-Artist : {top_rated_manga[i+j].get_artist()} | \
-Tags : {', '.join(top_rated_manga[i+j].get_tags())}
-""")
+                showList(i+j, top_rated_manga)
             print(f"Page {((i+1)//10)+1} of {max_page}")
             print("n : Next Page")
             print("p : Previous Page")
@@ -72,8 +52,26 @@ Tags : {', '.join(top_rated_manga[i+j].get_tags())}
                 i -= 10
             elif choice == 'q':
                 break
-            elif choice in range(i, i+10):
-                print()
+            elif choice in [str(x) for x in range(i+1, i+11)]:
+                print("1. Show Details")
+                print("2. Delete Manga")
+                print("3. Edit Manga")
+                print("4. Exit")
+                details = input("Input choice : ")
+                if details == '1':
+                    showDetailed(top_rated_manga[int(choice)-1])
+                    input("Press Enter to Continue")
+                elif details == '2':
+                    mangas.remove(top_rated_manga[int(choice)-1])
+                    print(f"{top_rated_manga[int(choice)-1].get_title()} has been deleted")
+                    top_rated_manga.remove(top_rated_manga[int(choice)-1])
+                    input("Press Enter to Continue")
+                elif details == '3':
+                    print("Edit")
+                elif details == '4':
+                    break
+            else:
+                print("Invalid Choice")
 
 def query_manga(mangas, mangas_dict):
     strategy = QueryManga(None, mangas)
@@ -84,10 +82,12 @@ def query_manga(mangas, mangas_dict):
         choice = input("Input Choice : ")
         if choice == '1':
             strategy.set_strategy(RandomManga())
+            strategy.get_manga()
         elif choice == '2':
             strategy.set_strategy(TopRatedManga())
+            strategy.get_manga()
         elif choice == '3':
             break
         else:
             print("Invalid Choice")
-        strategy.get_manga()
+        
