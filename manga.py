@@ -1,5 +1,11 @@
+# Nama : Timotius
+# NIM  : 232203088
 class Manga:
-    def __init__(self, manga_id: int, title: str, total_chapters: int, followers: int, rating: float, release_year: int, status: str, author: str, artist: str, description: str, link: str, tags: list) -> None:
+    def __init__(self, manga_id: int, title: str, 
+                 total_chapters: int, followers: int, 
+                 rating: float, release_year: int, status: str, 
+                 author: str, artist: str, description: str, 
+                 link: str, tags: list) -> None:
         self.__manga_id = manga_id
         self.__title = title
         self.__total_chapters = total_chapters
@@ -79,7 +85,8 @@ class Manga:
     def set_description(self, description: str) -> None:
         self.__description = description
 
-    
-    
     def get_data(self) -> tuple:
-        return (self.__manga_id, self.__title, self.__total_chapters, self.__followers, self.__rating, self.__release_year, self.__status, self.__author, self.__artist, self.__description, self.__link, self.__tags)
+        return (self.__manga_id, self.__title, self.__total_chapters, 
+                self.__followers, self.__rating, self.__release_year, 
+                self.__status, self.__author, self.__artist, 
+                self.__description, self.__link, self.__tags)

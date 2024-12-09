@@ -1,4 +1,5 @@
-
+# Nama : Timotius
+# NIM  : 232203088
 import requests
 
 class MangaAPI:
@@ -81,7 +82,11 @@ class MangaAPI:
             manga_rating = rating_data["statistics"][i]["rating"]["average"]
             if manga_rating is None:
                 manga_rating = 0
-            manga_tags = [tag["attributes"]["name"]["en"] for tag in manga_attributes["tags"] if tag["attributes"]["name"]["en"] in included_tag_names]
-            manga_datas.append([i, manga_title, chapter_count, manga_follows, manga_rating, release_year, manga_state, manga_author, manga_artist, manga_desc, manga_link, manga_tags])
+            manga_tags = [tag["attributes"]["name"]["en"] for tag in manga_attributes["tags"] 
+                          if tag["attributes"]["name"]["en"] in included_tag_names]
+            manga_datas.append([i, manga_title, chapter_count, manga_follows, 
+                                manga_rating, release_year, manga_state, 
+                                manga_author, manga_artist, manga_desc, 
+                                manga_link, manga_tags])
         return manga_datas
 

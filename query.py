@@ -1,3 +1,5 @@
+# Nama : Timotius
+# NIM  : 232203088
 from abc import ABC, abstractmethod
 import random
 from display import showDetailed
@@ -38,7 +40,9 @@ class TopRatedManga(Strategy):
 class MangaByGenre(Strategy):
     def tag_parameters(self, tag_choices):
         print("Tags : ")
-        tags = ["Action", "Fantasy", "Adventure", "Comedy", "Drama", "Romance", "School Life", "Shounen"]
+        tags = ["Action", "Fantasy", "Adventure", 
+                "Comedy", "Drama", "Romance", 
+                "School Life", "Shounen"]
         while True:
             for i, tag in enumerate(tags):
                 print(f"{i+1}. {tag}")
@@ -59,9 +63,19 @@ class MangaByGenre(Strategy):
                 tag_choices.append(tags[input_tag-1])
         
     def get_manga(self, mangas, mangas_dict):
-        included_tags = ["Action", "Fantasy", "Adventure", "Comedy", "Drama", "Romance", "School Life", "Shounen"]
+        included_tags = ["Action", "Fantasy", "Adventure", 
+                         "Comedy", "Drama", "Romance", 
+                         "School Life", "Shounen"]
         self.tag_parameters(included_tags)
         showPage(mangas, mangas_dict, '4', included_tags)
+
+class MangaByTitle(Strategy):
+    def get_manga(self, mangas, mangas_dict):
+        title = input("Input Title : ")
+        for manga in mangas:
+            if manga.get_title().lower() == title.lower():
+                showDetailed(manga)
+                return
 
 
 def query_manga(mangas, mangas_dict):
@@ -71,7 +85,8 @@ def query_manga(mangas, mangas_dict):
         print("2. Top Rated Manga (List)")
         print("3. Top Followed Manga (List)")
         print("4. Manga by Genre (List)")
-        print("5. Exit")
+        print("5. Manga by Title (Query)")
+        print("6. Exit")
         choice = input("Input Choice : ")
         if choice == '1':
             strategy.set_strategy(RandomManga())
@@ -86,7 +101,8 @@ def query_manga(mangas, mangas_dict):
             strategy.set_strategy(MangaByGenre())
             strategy.get_manga()
         elif choice == '5':
-            break
+            strategy.set_strategy(MangaByTitle())
+            strategy.get_manga()
         else:
             print("Invalid Choice")
         
