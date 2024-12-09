@@ -103,6 +103,8 @@ def query_manga(mangas, mangas_dict):
         elif choice == '5':
             strategy.set_strategy(MangaByTitle())
             strategy.get_manga()
+        elif choice == '6':
+            break
         else:
             print("Invalid Choice")
         

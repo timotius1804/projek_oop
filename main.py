@@ -26,6 +26,7 @@ def read_data():
             temp = [x.strip() for x in manga.split("|")]
             if len(temp) < 12:
                 print(f"Data is incomplete (Title : {temp[1]}, ID : {temp[0]})")
+                continue
             if temp[0] == "":
                 print(f"Manga ID is empty (Title : {temp[1]})")
                 continue

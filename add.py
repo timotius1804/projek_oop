@@ -1,9 +1,5 @@
-# To-Do:
-# 1. Integrate write_data function to here and make it into a class
-# 2. Add choice function for user input to set parameters for the manga (e.g: tags, title)
-# 3. Add function to edit manga record manually
-# 4. Add function to delete manga record manually
-
+# Nama : Timotius
+# NIM  : 232203088
 from api import MangaAPI
 import uuid
 from manga import Manga
@@ -90,7 +86,10 @@ class AddManga:
         
         link = f"https://mangadex.org/title/{manga_id}"
 
-        obj = Manga(manga_id, title, total_chapters, followers, rating, release_year, status, author, artist, description, link, tags)
+        obj = Manga(manga_id, title, total_chapters, 
+                    followers, rating, release_year, 
+                    status, author, artist, description, 
+                    link, tags)
         mangas.append(obj)
         mangas_dict[obj.get_manga_id()] = obj
 
@@ -119,7 +118,6 @@ class AddManga:
     def add_api_custom(self, mangas, mangas_dict):
         included_tags = ["Action", "Fantasy", "Adventure", "Comedy", "Drama", "Romance", "School Life", "Shounen"]
         tags_mode = "OR"
-
         while True:
             print('Current Settings : ')
             print(f"Included Tags : {', '.join(included_tags)}")
@@ -148,8 +146,11 @@ class AddManga:
                     tags_mode = "AND"
             elif choice == 3:
                 break
-
-        api = MangaAPI(included_tags, tags_mode).getData()
+        try:
+            api = MangaAPI(included_tags, tags_mode).getData()
+        except Exception as e:
+            print("MangaDex memerlukan DNS over HTTPS untuk mengakses API")
+            return
         for i in api:
             if i[0] in mangas_dict:
                 print(i)
@@ -166,7 +167,12 @@ class AddManga:
                 mangas_dict[obj.get_manga_id()] = obj
 
     def add_latest(self, mangas, mangas_dict):
-        api = MangaAPI(["Action", "Fantasy", "Adventure", "Comedy", "Drama", "Romance", "School Life", "Shounen"], "OR").getData()
+        try:
+            api = MangaAPI(["Action", "Fantasy", "Adventure", "Comedy", "Drama", "Romance", "School Life", "Shounen"], "OR").getData()
+        except Exception as e:
+            print("MangaDex memerlukan DNS over HTTPS untuk mengakses API")
+            return
+
         for i in api:
             if i[0] in mangas_dict:
                 obj = Manga(*i)

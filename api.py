@@ -9,9 +9,13 @@ class MangaAPI:
     def getData(self):
         included_tag_names = self.__included_tags
         base_url = "https://api.mangadex.org"
-        tags = requests.get(
-            f"{base_url}/manga/tag"
-        ).json()
+        try:
+            tags = requests.get(
+                f"{base_url}/manga/tag"
+            ).json()
+        except:
+            print("MangaDex memerlukan DNS over HTTPS untuk mengakses API")
+            return []
         included_tag_ids = [
             tag["id"]
             for tag in tags["data"]
