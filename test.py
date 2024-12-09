@@ -1,3 +1,6 @@
+# Nama : Timotius
+# NIM  : 232203088
+
 from api import MangaAPI
 from manga import Manga
 from string import punctuation, whitespace

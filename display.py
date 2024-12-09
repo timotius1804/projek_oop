@@ -1,4 +1,3 @@
-
 def showDetailed(mangas):
         print(
 f"""
@@ -29,3 +28,4 @@ Author : {manga_data[count].get_author()} | \
 Artist : {manga_data[count].get_artist()} | \
 Tags : {', '.join(manga_data[count].get_tags())}
 """)
+        

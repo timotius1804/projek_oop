@@ -1,6 +1,9 @@
 from display import showDetailed
-def edit_manga(mangas, mangas_dict):
-    choice = input("Input Manga ID : ")
+def edit_manga(mangas, mangas_dict, id=""):
+    if id == "":
+        choice = input("Input Manga ID : ")
+    else:
+        choice = id
     if choice not in mangas_dict:
         print("Manga ID not found")
         return
